@@ -1,5 +1,40 @@
 apply plugin: 'com.android.application'
 
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.google.gms:google-services:3.0.0'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven {
+            url "https://maven.google.com"
+        }
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
+        maven {
+            url 'https://mymavenrepo.com/repo/ukAiuNSVkftQiB4kKUPH/'
+            name 'Private Repo'
+        }
+
+    }
+}
+
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.1"
@@ -31,7 +66,7 @@ dependencies {
     compile "com.android.support:design:$supportLibraryVersion"
     testCompile 'junit:junit:4.12'
     //compile project(':sdk')
-    compile ('com.turkcell.digitalgate:digitalgate-aar:4.7.1') {
+    compile('com.turkcell.digitalgate:digitalgate-aar:4.7.1') {
         transitive = true
     }
 }
