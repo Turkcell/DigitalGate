@@ -35,4 +35,13 @@ Add the compile dependency with the latest version of the Digitalgate SDK in the
 
 ```
 
+### 2.2 Setting the Required Permissions
+
+The AndroidManifest.xml should include the following permissions:
+
+```
+<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+<!-- Optional : -->
+<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+```
 
