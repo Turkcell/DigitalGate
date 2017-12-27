@@ -52,7 +52,7 @@ Initialization of the SDK is completed in two stages. In the first stage the DGL
 To initialize the SDK, add the following code in your Application activity or fragment:
 
 ```Java
-    DGLoginCoordinator dg = new DGLoginCoordinator.Builder().appId(app_id).build();
+    DGLoginCoordinator dg = new DGLoginCoordinator.Builder().appId(your_app_id).build();
 ```
 
 ## 4. SDK Initialization
@@ -127,7 +127,7 @@ Add the following code in your Application’s fragment or activity:
 To logout from the system, there is a static method to call. Re-initialization of DGLoginCoordinator is not needed. Add the following code in your Application:
 
 ```Java
-    DGLoginCoordinator.logout(this, appId);
+    DGLoginCoordinator.logout(this, your_app_id);
 ```
 
 For logout, there is no result. Having called the logout method is enough.
@@ -146,6 +146,6 @@ Sample code for configuring the style:
             .setPositiveButtonTextColor(android.R.color.black)
             .build();
 
-    DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(dgTheme).appId(app_id).build();
+    DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(dgTheme).appId(your_app_id).build();
 ```
 
