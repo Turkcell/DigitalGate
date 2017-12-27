@@ -51,7 +51,7 @@ Initialization of the SDK is completed in two stages. In the first stage the DGL
 
 To initialize the SDK, add the following code in your Application activity or fragment:
 
-```
+```Java
     DGLoginCoordinator dg = new DGLoginCoordinator.Builder().appId(app_id).build();
 ```
 
@@ -62,7 +62,7 @@ Having initialized the SDK, start login one of the main flows to call. It takes 
 * autoLoginOnly: if true, only cellular login and remember me will work
 * disableAutoLogin: if true, login process is forced to user.
 
-```
+```Java
     try {
             dg.startForLogin(this, disableCellLogin, autoLoginOnly, disableAutoLogin);
     } catch (DGException e) {
@@ -76,7 +76,7 @@ For getting result, see Section 7.
 
 Having initialized the SDK, start register one of the main flows to call. It runs without parameters;
 
-```
+```Java
     try {
         dg.startForRegister(this);
     } catch (DGException e) {
@@ -90,7 +90,7 @@ For getting result, see Section 7.
 
 Having initialized the SDK, switch account one of the main flows to call. It runs without parameters;
 
-```
+```Java
     try {
         dg.startForSwitchAccount(this);
     } catch (DGException e) {
@@ -106,7 +106,7 @@ To get the result from SDK, onActivityResult method must be overridden in the ap
 
 Add the following code in your Application’s fragment or activity:
 
-```
+```Java
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -126,7 +126,7 @@ Add the following code in your Application’s fragment or activity:
 ## 8. SDK Logout
 To logout from the system, there is a static method to call. Re-initialization of DGLoginCoordinator is not needed. Add the following code in your Application:
 
-```
+```Java
     DGLoginCoordinator.logout(this, appId);
 ```
 
@@ -137,7 +137,7 @@ The configuration of the sdk can be achieved by creating DGTheme and passing DGT
 
 Sample code for configuring the style:
 
-```
+```Java
     DGTheme dgTheme = new DGTheme.Builder()
             .setBackgroundColor(android.R.color.holo_green_light)
             .setTitleLabelColor(android.R.color.holo_red_dark)
