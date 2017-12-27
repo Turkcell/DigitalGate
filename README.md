@@ -122,3 +122,30 @@ Add the following code in your Application’s fragment or activity:
         }
     }
 ```
+
+## 8. SDK Logout
+To logout from the system, there is a static method to call. Re-initialization of DGLoginCoordinator is not needed. Add the following code in your Application:
+
+```
+    DGLoginCoordinator.logout(this, appId);
+```
+
+For logout, there is no result. Having called the logout method is enough.
+
+## 9. SDK Style Configuration
+The configuration of the sdk can be achieved by creating DGTheme and passing DGTheme to DGLoginCoordinator. Builder pattern is used for creating the DGTheme. 
+
+Sample code for configuring the style:
+
+```
+    DGTheme dgTheme = new DGTheme.Builder()
+            .setBackgroundColor(android.R.color.holo_green_light)
+            .setTitleLabelColor(android.R.color.holo_red_dark)
+            .setDescriptionTextColor(android.R.color.holo_orange_dark)
+            .setCheckBoxPassiveIcon(R.drawable.dg_checkbox_normal)
+            .setPositiveButtonTextColor(android.R.color.black)
+            .build();
+
+    DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(dgTheme).appId(app_id).build();
+```
+
