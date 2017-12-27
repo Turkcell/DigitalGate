@@ -72,3 +72,53 @@ Having initialized the SDK, start login one of the main flows to call. It takes 
 
 For getting result, see Section 7.
 
+## 5. SDK Start Register
+
+Having initialized the SDK, start register one of the main flows to call. It runs without parameters;
+
+```
+    try {
+        dg.startForRegister(this);
+    } catch (DGException e) {
+        //application error handling, e.g. required appId
+    }
+```
+
+For getting result, see Section 7.
+
+## 6. SDK Switch Account
+
+Having initialized the SDK, switch account one of the main flows to call. It runs without parameters;
+
+```
+    try {
+        dg.startForSwitchAccount(this);
+    } catch (DGException e) {
+        //application error handling, e.g. required appId
+    }
+```
+
+For getting result, see Section 7.
+
+## 7. SDK Result
+
+To get the result from SDK, onActivityResult method must be overridden in the application’s Activity or Fragment.
+
+Add the following code in your Application’s fragment or activity:
+
+```
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == DGLoginCoordinator.DG_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Unexpected Error Case
+            }
+            if (resultCode == Activity.RESULT_OK) {
+                DGResult dgResult = DGLoginCoordinator.getDGResult(data);
+                //dgResult has the result, take action according to result
+            }
+        }
+    }
+```
