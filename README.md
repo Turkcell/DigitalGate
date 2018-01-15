@@ -233,6 +233,8 @@ Sample code for configuring the style:
     DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(dgTheme).appId(your_app_id).build();
 ```
 
+For detailed description of customizing styles see Digitalgate Android documentation.
+
 ## 13. FAQ
 
 **Q: What is my app ID?**
