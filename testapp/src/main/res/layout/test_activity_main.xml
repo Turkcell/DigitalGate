@@ -15,6 +15,13 @@
         android:layout_height="wrap_content"
         android:hint="App ID" />
 
+
+    <EditText
+        android:id="@+id/transferToken"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Transfer Token" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,28 +70,35 @@
         android:id="@+id/buttonRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:text="REGISTER" />
 
     <Button
         android:id="@+id/buttonAccountChange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:text="Account Change" />
+
+    <Button
+        android:id="@+id/buttonWidgetLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Widget Login" />
 
     <Button
         android:id="@+id/buttonLogOut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:text="LogOut" />
 
     <TextView
         android:id="@+id/textViewResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:textColor="@color/dg_c_white"
         android:textSize="16sp" />
 

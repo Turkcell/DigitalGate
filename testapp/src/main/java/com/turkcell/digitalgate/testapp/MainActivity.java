@@ -3,6 +3,7 @@ package com.turkcell.digitalgate.testapp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.turkcell.digitalgate.DGLoginCoordinator;
 import com.turkcell.digitalgate.DGTheme;
+import com.turkcell.digitalgate.model.DGEnv;
 import com.turkcell.digitalgate.model.exception.DGException;
 import com.turkcell.digitalgate.model.result.DGResult;
 
@@ -34,11 +36,13 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonLogin;
     private Button buttonRegister;
     private Button buttonAccountChange;
+    private Button buttonWidgetLogin;
     private Button buttonLogOut;
     private Spinner spinner;
     private TextView textViewResult;
     private List<String> spinnerItemList;
     private EditText appId;
+    private EditText transferToken;
     private CheckBox disableCellLogin;
     private CheckBox autoLoginOnly;
     private CheckBox disableAutoLogin;
@@ -52,8 +56,10 @@ public class MainActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.button);
         buttonRegister = findViewById(R.id.buttonRegister);
         buttonAccountChange = findViewById(R.id.buttonAccountChange);
+        buttonWidgetLogin = findViewById(R.id.buttonWidgetLogin);
         buttonLogOut = findViewById(R.id.buttonLogOut);
         appId = findViewById(R.id.appId);
+        transferToken = findViewById(R.id.transferToken);
         disableCellLogin = findViewById(R.id.disableCellLogin);
         autoLoginOnly = findViewById(R.id.autoLoginOnly);
         disableAutoLogin = findViewById(R.id.disableAutoLogin);
@@ -97,12 +103,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        buttonWidgetLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openLoginSdkForWidgetLogin();
+            }
+        });
+
         buttonLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DGLoginCoordinator.logout(MainActivity.this,getAppId());
+                DGLoginCoordinator.logout(MainActivity.this, getAppId());
             }
         });
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(DGLoginCoordinator.DG_WIDGET_BROADCAST_RESULT);
+
+        WidgetReceiver myReceiver = new WidgetReceiver(this);
+        registerReceiver(myReceiver, filter);
 
 
         spinnerItemList = new ArrayList();
@@ -130,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void openLoginSdkForRegister() {
         DGTheme dgTheme = new DGTheme.Builder().setBackgroundColor(android.R.color.holo_green_light).setTitleLabelColor(android.R.color.holo_red_dark).setDescriptionTextColor(android.R.color.holo_orange_dark).setCheckBoxPassiveIcon(R.drawable.dg_checkbox_normal).setPositiveButtonBackgroundColor(android.R.color.darker_gray).setPositiveButtonTextColor(android.R.color.black).build();
-        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(null).appId(getAppId()).build();
+        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(null).appId(getAppId()).environment(DGEnv.TEST).build();
 
         try {
             dg.startForRegister(this, demoFlowType);
@@ -141,13 +160,26 @@ public class MainActivity extends AppCompatActivity {
 
     private void openLoginSdkForStart() {
         DGTheme dgTheme = new DGTheme.Builder().setBackgroundColor(android.R.color.holo_green_light).setTitleLabelColor(android.R.color.holo_red_dark).setDescriptionTextColor(android.R.color.holo_orange_dark).setCheckBoxPassiveIcon(R.drawable.dg_checkbox_normal).setPositiveButtonBackgroundColor(android.R.color.darker_gray).setPositiveButtonTextColor(android.R.color.black).build();
-        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(null).appId(getAppId()).build();
+        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(null).appId(getAppId()).environment(DGEnv.TEST).build();
 
         try {
-            dg.startForLogin(this, disableCellLogin.isChecked(), autoLoginOnly.isChecked(), disableAutoLogin.isChecked(), demoFlowType);
+            dg.startForLoginWithTransferToken(this, disableCellLogin.isChecked(), autoLoginOnly.isChecked(), disableAutoLogin.isChecked(), demoFlowType, getTransferToken());
         } catch (DGException e) {
             e.printStackTrace();
         }
+    }
+
+    private void openLoginSdkForWidgetLogin() {
+        DGTheme dgTheme = new DGTheme.Builder().setBackgroundColor(android.R.color.holo_green_light).setTitleLabelColor(android.R.color.holo_red_dark).setDescriptionTextColor(android.R.color.holo_orange_dark).setCheckBoxPassiveIcon(R.drawable.dg_checkbox_normal).setPositiveButtonBackgroundColor(android.R.color.darker_gray).setPositiveButtonTextColor(android.R.color.black).build();
+        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(null).appId(getAppId()).environment(DGEnv.TEST).build();
+
+        try {
+            dg.startForWidgetLogin(getApplicationContext());
+        } catch (DGException e) {
+            //application error handling, e.g. required appId
+        }
+
+
     }
 
     @NonNull
@@ -161,9 +193,20 @@ public class MainActivity extends AppCompatActivity {
         return appId;
     }
 
+    @NonNull
+    private String getTransferToken() {
+        String transferToken;
+        if (!TextUtils.isEmpty(this.transferToken.getText().toString())) {
+            transferToken = this.transferToken.getText().toString();
+        } else {
+            transferToken = null;
+        }
+        return transferToken;
+    }
+
     private void openLoginSdkForAccounChange() {
         DGTheme dgTheme = new DGTheme.Builder().setBackgroundColor(android.R.color.holo_green_light).setTitleLabelColor(android.R.color.holo_red_dark).setDescriptionTextColor(android.R.color.holo_orange_dark).setCheckBoxPassiveIcon(R.drawable.dg_checkbox_normal).setPositiveButtonBackgroundColor(android.R.color.darker_gray).setPositiveButtonTextColor(android.R.color.black).build();
-        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(dgTheme).appId(getAppId()).build();
+        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(dgTheme).appId(getAppId()).environment(DGEnv.TEST).build();
 
         try {
             dg.startForSwitchAccount(this, demoFlowType);
@@ -188,4 +231,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void showWidgetResult(Intent data){
+        DGResult dgResult = DGLoginCoordinator.getDGResult(data);
+        textViewResult.setText(String.format(" Result :  %s", dgResult.toString()));
+        Toast.makeText(this, dgResult.getDgResultType().getResultMessage(), Toast.LENGTH_LONG).show();
+    }
+
 }

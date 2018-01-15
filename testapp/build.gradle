@@ -37,12 +37,12 @@ allprojects {
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.1"
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "com.turkcell.digitalgate.testapp"
         minSdkVersion 18
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -66,7 +66,7 @@ dependencies {
     compile "com.android.support:design:$supportLibraryVersion"
     testCompile 'junit:junit:4.12'
     //compile project(':sdk')
-    compile('com.turkcell.digitalgate:digitalgate-aar:4.7.1') {
+    compile('com.turkcell.digitalgate:digitalgate-aar:2.0.0') {
         transitive = true
     }
 }
