@@ -21,7 +21,7 @@ Adding Digitalgate’s Android SDK Dependency:
     repositories {
         maven {
             url 'https://mymavenrepo.com/repo/ukAiuNSVkftQiB4kKUPH/'
-            name 'Private Repo'
+            name 'Digitalgate Repo'
         }
     }
 ```
