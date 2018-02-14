@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.turkcell.digitalgate.DGLoginCoordinator;
 import com.turkcell.digitalgate.DGTheme;
+import com.turkcell.digitalgate.client.model.DGLanguage;
 import com.turkcell.digitalgate.model.DGEnv;
 import com.turkcell.digitalgate.model.exception.DGException;
 import com.turkcell.digitalgate.model.result.DGResult;
@@ -33,25 +34,33 @@ public class MainActivity extends AppCompatActivity {
 
     private final String NORMAL_FLOW = "NORMAL_FLOW";
     String demoFlowType;
+    DGLanguage language;
     private Button buttonLogin;
     private Button buttonRegister;
     private Button buttonAccountChange;
     private Button buttonWidgetLogin;
     private Button buttonLogOut;
     private Spinner spinner;
+    private Spinner spinnerLanguage;
+    private Spinner spinnerEnv;
     private TextView textViewResult;
     private List<String> spinnerItemList;
+    private List<String> spinnerLanguageItemList;
+    private List<String> spinnerEnvList;
     private EditText appId;
     private EditText transferToken;
     private CheckBox disableCellLogin;
     private CheckBox autoLoginOnly;
     private CheckBox disableAutoLogin;
+    private DGEnv env;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_activity_main);
         spinner = findViewById(R.id.spinner);
+        spinnerLanguage = findViewById(R.id.spinnerLanguage);
+        spinnerEnv = findViewById(R.id.spinnerEnv);
         textViewResult = findViewById(R.id.textViewResult);
         buttonLogin = findViewById(R.id.button);
         buttonRegister = findViewById(R.id.buttonRegister);
@@ -77,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
                 if (demoFlowType.equals(NORMAL_FLOW)) {
                     demoFlowType = null;
                 }
+
+                language = DGLanguage.valueOf(spinnerLanguageItemList.get(spinnerLanguage.getSelectedItemPosition()));
+                env = DGEnv.valueOf(spinnerEnvList.get(spinnerEnv.getSelectedItemPosition()));
                 openLoginSdkForStart();
             }
         });
@@ -88,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 if (demoFlowType.equals(NORMAL_FLOW)) {
                     demoFlowType = null;
                 }
+                env = DGEnv.valueOf(spinnerEnvList.get(spinnerEnv.getSelectedItemPosition()));
+                language = DGLanguage.valueOf(spinnerLanguageItemList.get(spinnerLanguage.getSelectedItemPosition()));
                 openLoginSdkForRegister();
             }
         });
@@ -99,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
                 if (demoFlowType.equals(NORMAL_FLOW)) {
                     demoFlowType = null;
                 }
+                env = DGEnv.valueOf(spinnerEnvList.get(spinnerEnv.getSelectedItemPosition()));
+                language = DGLanguage.valueOf(spinnerLanguageItemList.get(spinnerLanguage.getSelectedItemPosition()));
                 openLoginSdkForAccounChange();
             }
         });
@@ -106,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
         buttonWidgetLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                env = DGEnv.valueOf(spinnerEnvList.get(spinnerEnv.getSelectedItemPosition()));
+                language = DGLanguage.valueOf(spinnerLanguageItemList.get(spinnerLanguage.getSelectedItemPosition()));
                 openLoginSdkForWidgetLogin();
             }
         });
@@ -113,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
         buttonLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                env = DGEnv.valueOf(spinnerEnvList.get(spinnerEnv.getSelectedItemPosition()));
+                language = DGLanguage.valueOf(spinnerLanguageItemList.get(spinnerLanguage.getSelectedItemPosition()));
                 DGLoginCoordinator.logout(MainActivity.this, getAppId());
             }
         });
@@ -124,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(myReceiver, filter);
 
 
-        spinnerItemList = new ArrayList();
+        spinnerItemList = new ArrayList<>();
         spinnerItemList.add(NORMAL_FLOW);
         spinnerItemList.add("ACTIVE_REMEMBERME_LOGIN");
         spinnerItemList.add("ACTIVE_REMEMBERME_LOGIN_SHOW_DIGITAL_ID_ENTRY");
@@ -139,17 +159,38 @@ public class MainActivity extends AppCompatActivity {
         spinnerItemList.add("SHOW_LOGIN_REGISTERREQUIRED");
         spinnerItemList.add("MC_LOGIN");
 
+        spinnerLanguageItemList = new ArrayList<>();
+        spinnerLanguageItemList.add(DGLanguage.TR.name());
+        spinnerLanguageItemList.add(DGLanguage.EN.name());
+        spinnerLanguageItemList.add(DGLanguage.UK.name());
+        spinnerLanguageItemList.add(DGLanguage.RU.name());
+        spinnerLanguageItemList.add(DGLanguage.AR.name());
+        spinnerLanguageItemList.add(DGLanguage.SK.name());
+        spinnerLanguageItemList.add(DGLanguage.HE.name());
+        spinnerLanguageItemList.add(DGLanguage.FR.name());
+
+        spinnerEnvList = new ArrayList<>();
+        spinnerEnvList.add(DGEnv.TEST.name());
+        spinnerEnvList.add(DGEnv.PROD.name());
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerItemList);
         adapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(adapter);
+
+        ArrayAdapter<String> adapterLanguage = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerLanguageItemList);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        spinnerLanguage.setAdapter(adapterLanguage);
+
+        ArrayAdapter<String> adapterEnv = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerEnvList);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        spinnerEnv.setAdapter(adapterEnv);
 
 
     }
 
     private void openLoginSdkForRegister() {
         DGTheme dgTheme = new DGTheme.Builder().setBackgroundColor(android.R.color.holo_green_light).setTitleLabelColor(android.R.color.holo_red_dark).setDescriptionTextColor(android.R.color.holo_orange_dark).setCheckBoxPassiveIcon(R.drawable.dg_checkbox_normal).setPositiveButtonBackgroundColor(android.R.color.darker_gray).setPositiveButtonTextColor(android.R.color.black).build();
-        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(null).appId(getAppId()).environment(DGEnv.TEST).build();
+        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(null).appId(getAppId()).environment(env).language(language).build();
 
         try {
             dg.startForRegister(this, demoFlowType);
@@ -160,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void openLoginSdkForStart() {
         DGTheme dgTheme = new DGTheme.Builder().setBackgroundColor(android.R.color.holo_green_light).setTitleLabelColor(android.R.color.holo_red_dark).setDescriptionTextColor(android.R.color.holo_orange_dark).setCheckBoxPassiveIcon(R.drawable.dg_checkbox_normal).setPositiveButtonBackgroundColor(android.R.color.darker_gray).setPositiveButtonTextColor(android.R.color.black).build();
-        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(null).appId(getAppId()).environment(DGEnv.TEST).build();
+        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(null).appId(getAppId()).environment(env).language(language).build();
 
         try {
             dg.startForLoginWithTransferToken(this, disableCellLogin.isChecked(), autoLoginOnly.isChecked(), disableAutoLogin.isChecked(), demoFlowType, getTransferToken());
@@ -171,12 +212,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void openLoginSdkForWidgetLogin() {
         DGTheme dgTheme = new DGTheme.Builder().setBackgroundColor(android.R.color.holo_green_light).setTitleLabelColor(android.R.color.holo_red_dark).setDescriptionTextColor(android.R.color.holo_orange_dark).setCheckBoxPassiveIcon(R.drawable.dg_checkbox_normal).setPositiveButtonBackgroundColor(android.R.color.darker_gray).setPositiveButtonTextColor(android.R.color.black).build();
-        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(null).appId(getAppId()).environment(DGEnv.TEST).build();
+        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(null).appId(getAppId()).environment(env).language(language).build();
 
         try {
             dg.startForWidgetLogin(getApplicationContext());
         } catch (DGException e) {
-            //application error handling, e.g. required appId
+            e.printStackTrace();
         }
 
 
@@ -206,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void openLoginSdkForAccounChange() {
         DGTheme dgTheme = new DGTheme.Builder().setBackgroundColor(android.R.color.holo_green_light).setTitleLabelColor(android.R.color.holo_red_dark).setDescriptionTextColor(android.R.color.holo_orange_dark).setCheckBoxPassiveIcon(R.drawable.dg_checkbox_normal).setPositiveButtonBackgroundColor(android.R.color.darker_gray).setPositiveButtonTextColor(android.R.color.black).build();
-        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(dgTheme).appId(getAppId()).environment(DGEnv.TEST).build();
+        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(dgTheme).appId(getAppId()).environment(env).language(language).build();
 
         try {
             dg.startForSwitchAccount(this, demoFlowType);
@@ -232,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void showWidgetResult(Intent data){
+    public void showWidgetResult(Intent data) {
         DGResult dgResult = DGLoginCoordinator.getDGResult(data);
         textViewResult.setText(String.format(" Result :  %s", dgResult.toString()));
         Toast.makeText(this, dgResult.getDgResultType().getResultMessage(), Toast.LENGTH_LONG).show();
