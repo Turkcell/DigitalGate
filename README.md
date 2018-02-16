@@ -6,7 +6,7 @@ Digitalgate provides integration to Turkcell login  systems. We have developed a
 
 You can initialize login , register, switch account flows.
 
-The Digitalgate Android SDK is compatible with Android 4.3(API 18) and above.
+The Digitalgate Android SDK is compatible with Android 4.3(API 18), Support Library 26 and above.  
 
 ## 2. Quick Start
 ### 2.1 Adding SDK to your Project
