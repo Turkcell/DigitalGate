@@ -29,7 +29,7 @@ Adding Digitalgate’s Android SDK Dependency:
 Add the compile dependency with the latest version of the Digitalgate SDK in the build.gradle file:
 
 ```
-    compile ('com.turkcell.digitalgate:digitalgate-aar:2.1.8'){
+    compile ('com.turkcell.digitalgate:digitalgate-aar:2.2.5'){
         transitive = true
     }
 
@@ -235,7 +235,14 @@ Sample code for configuring the style:
 
 For detailed description of customizing styles see Digitalgate Android documentation.
 
-## 13. FAQ
+## 13. PROGUARD CONFIGURATION
+If you are using ProGuard in your project add the following lines to your configuration:
+
+```
+-keep class com.turkcell.digitalgate.client.** { *; }
+```
+
+## 14. FAQ
 
 **Q: What is my app ID?**
 
