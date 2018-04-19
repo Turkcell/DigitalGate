@@ -29,7 +29,7 @@ Adding Digitalgate’s Android SDK Dependency:
 Add the compile dependency with the latest version of the Digitalgate SDK in the build.gradle file:
 
 ```
-    compile ('com.turkcell.digitalgate:digitalgate-aar:2.2.5'){
+    compile ('com.turkcell.digitalgate:digitalgate-aar:2.3.4'){
         transitive = true
     }
 
