@@ -66,10 +66,11 @@ Having initialized the SDK, start login one of the main flows to call. It takes 
 * disableCellLogin: if true, cellular login functionality won’t work.
 * autoLoginOnly: if true, only cellular login and remember me will work
 * disableAutoLogin: if true, login process is forced to user.
+* dismissCloseButton: if true, close button will be disabled for all screens.
 
 ```Java
     try {
-            dg.startForLogin(this, disableCellLogin, autoLoginOnly, disableAutoLogin);
+            dg.startForLogin(this, disableCellLogin, autoLoginOnly, disableAutoLogin, dismissCloseButton);
     } catch (DGException e) {
             //application error handling, e.g. required appId
     }
@@ -112,11 +113,12 @@ Having initialized the SDK, start login with transfer token one of the main flow
 * disableCellLogin: if true, cellular login functionality won’t work.
 * autoLoginOnly: if true, only cellular login and remember me will work
 * disableAutoLogin: if true, login process is forced to user.
+* dismissCloseButton: if true, close button will be disabled for all screens.
 * transferToken: transfer token that taken from the backend must be passed.
 
 ```Java
     try {
-            dg.startForLoginWithTransferToken(this, disableCellLogin, autoLoginOnly, disableAutoLogin, transferToken);
+            dg.startForLoginWithTransferToken(this, disableCellLogin, autoLoginOnly, disableAutoLogin, dismissCloseButton, transferToken);
     } catch (DGException e) {
             //application error handling, e.g. required appId
     }
