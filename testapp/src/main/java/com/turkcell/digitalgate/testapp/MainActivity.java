@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
         spinnerItemList.add("DIGITAL_ID_VERIFYEMAIL_ERROR");
         spinnerItemList.add("SHOW_LOGIN_REGISTERREQUIRED");
         spinnerItemList.add("MC_LOGIN");
+        spinnerItemList.add("SHOW_SELECT_PAGE");
 
         spinnerLanguageItemList = new ArrayList<>();
         spinnerLanguageItemList.add(DGLanguage.TR.name());
@@ -189,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openLoginSdkForRegister() {
-        DGTheme dgTheme = new DGTheme.Builder().setBackgroundColor(android.R.color.holo_green_light).setTitleLabelColor(android.R.color.holo_red_dark).setDescriptionTextColor(android.R.color.holo_orange_dark).setCheckBoxPassiveIcon(R.drawable.dg_checkbox_normal).setPositiveButtonBackgroundColor(android.R.color.darker_gray).setPositiveButtonTextColor(android.R.color.black).build();
         DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(null).appId(getAppId()).environment(env).language(language).build();
 
         try {
@@ -200,18 +200,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openLoginSdkForStart() {
-        DGTheme dgTheme = new DGTheme.Builder().setBackgroundColor(android.R.color.holo_green_light).setTitleLabelColor(android.R.color.holo_red_dark).setDescriptionTextColor(android.R.color.holo_orange_dark).setCheckBoxPassiveIcon(R.drawable.dg_checkbox_normal).setPositiveButtonBackgroundColor(android.R.color.darker_gray).setPositiveButtonTextColor(android.R.color.black).build();
-        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(null).appId(getAppId()).environment(env).language(language).build();
+        DGTheme digitalGateTheme = getDigitalGateTheme();
+        DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(digitalGateTheme).appId(getAppId()).environment(env).language(language).build();
 
         try {
-            dg.startForLoginWithTransferToken(this, disableCellLogin.isChecked(), autoLoginOnly.isChecked(), disableAutoLogin.isChecked(), demoFlowType, getTransferToken());
+            dg.startForLoginWithTransferToken(this, disableCellLogin.isChecked(), autoLoginOnly.isChecked(), disableAutoLogin.isChecked(), false, demoFlowType, getTransferToken());
         } catch (DGException e) {
             e.printStackTrace();
         }
     }
 
+    private DGTheme getDigitalGateTheme() {
+        DGTheme dgTheme = new DGTheme.Builder().setPopUpBottomColor(android.R.color.black).setPopUpTopColor(R.color.dg_c_fedf32).setPopupTitleLabelColor(R.color.dg_c_1ca1e4).setPopupDescriptionTextColor(android.R.color.holo_red_dark).setRoundedFillButtonBackgroundColor(android.R.color.holo_green_dark).setRoundedFillButtonTextColor(android.R.color.black).setRoundedTransparentButtonBorderColor(android.R.color.black).setRoundedTransparentButtonTextColor(android.R.color.holo_red_light).setBackgroundColor(android.R.color.holo_green_light).setTitleLabelColor(android.R.color.holo_red_dark).setDescriptionTextColor(android.R.color.holo_orange_dark).setCheckBoxPassiveIcon(R.drawable.dg_checkbox_normal).setPositiveButtonBackgroundColor(android.R.color.darker_gray).setPositiveButtonTextColor(android.R.color.black).setRegisterIcon(R.drawable.dg_icon_bin).build();
+        return dgTheme;
+    }
+
     private void openLoginSdkForWidgetLogin() {
-        DGTheme dgTheme = new DGTheme.Builder().setBackgroundColor(android.R.color.holo_green_light).setTitleLabelColor(android.R.color.holo_red_dark).setDescriptionTextColor(android.R.color.holo_orange_dark).setCheckBoxPassiveIcon(R.drawable.dg_checkbox_normal).setPositiveButtonBackgroundColor(android.R.color.darker_gray).setPositiveButtonTextColor(android.R.color.black).build();
         DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(null).appId(getAppId()).environment(env).language(language).build();
 
         try {
@@ -246,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openLoginSdkForAccounChange() {
-        DGTheme dgTheme = new DGTheme.Builder().setBackgroundColor(android.R.color.holo_green_light).setTitleLabelColor(android.R.color.holo_red_dark).setDescriptionTextColor(android.R.color.holo_orange_dark).setCheckBoxPassiveIcon(R.drawable.dg_checkbox_normal).setPositiveButtonBackgroundColor(android.R.color.darker_gray).setPositiveButtonTextColor(android.R.color.black).build();
+        DGTheme dgTheme = new DGTheme.Builder().setBackgroundColor(android.R.color.holo_blue_light).setTitleLabelColor(android.R.color.holo_red_dark).setDescriptionTextColor(android.R.color.holo_orange_dark).setCheckBoxPassiveIcon(R.drawable.dg_checkbox_normal).setPositiveButtonBackgroundColor(android.R.color.darker_gray).setPositiveButtonTextColor(android.R.color.black).setRegionSelectIcon(R.drawable.dg_checkbox_active).build();
         DGLoginCoordinator dg = new DGLoginCoordinator.Builder().theme(dgTheme).appId(getAppId()).environment(env).language(language).build();
 
         try {
